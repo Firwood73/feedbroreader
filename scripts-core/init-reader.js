@@ -1,7 +1,34 @@
-var feedbroengine = new feedbro.Engine();
+var feedbroengine;
 
-document.addEventListener('DOMContentLoaded', function () { 
-	window["feedbroengine"].engineInit();
+function getFeedbroBackground() {
+	if (window.feedbrobg) {
+		return window.feedbrobg;
+	}
+	if (typeof chrome === "undefined" || !chrome.extension || !chrome.extension.getBackgroundPage) {
+		return null;
+	}
+	var backgroundPage = chrome.extension.getBackgroundPage();
+	return backgroundPage && backgroundPage.feedbrobg ? backgroundPage.feedbrobg : null;
+}
+
+function bootReader(attempt) {
+	if (getFeedbroBackground()) {
+		feedbroengine = new feedbro.Engine();
+		window.feedbroengine = feedbroengine;
+		feedbroengine.engineInit();
+		return;
+	}
+	if (attempt >= 100) {
+		console.error("Feedbro background is unavailable. Reader initialization aborted.");
+		return;
+	}
+	setTimeout(function() {
+		bootReader(attempt + 1);
+	}, 100);
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+	bootReader(0);
 });
 
 window.onunload = function() {
