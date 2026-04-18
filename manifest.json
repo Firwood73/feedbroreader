@@ -1,7 +1,7 @@
 {
   "name": "Feedbro",
   "version": "4.16.3",
-  "manifest_version": 2,
+  "manifest_version": 3,
   "default_locale": "en",
   "short_name": "Feedbro",
   "description": "Advanced Feed Reader - Read news & blogs or any RSS/Atom/RDF source.",
@@ -12,8 +12,7 @@
   },
   "homepage_url": "https://nodetics.com/feedbro",
   "background": {
-    "page": "background.html",
-    "persistent": true
+    "service_worker": "scripts-core/background-sw.js"
   },
   "options_ui": {
     "page": "options.html",
@@ -21,22 +20,23 @@
   },
   "permissions": [
     "tabs",
-    "http://*/",
-    "https://*/",
     "storage",
     "unlimitedStorage",
     "notifications",
-    "webRequest",
-    "webRequestBlocking"
+    "webRequest"
   ],
-  "browser_action": {
-    "default_icon": "images/reader48.png",
-    "default_title": "Feedbro",
-    "default_popup": "mainmenu.html"
-  },
   "browser_specific_settings": {
     "gecko": {
       "id": "{a9c2ad37-e940-4892-8dce-cd73c6cbbc0c}"
     }
-  }
+  },
+  "action": {
+    "default_icon": "images/reader48.png",
+    "default_title": "Feedbro",
+    "default_popup": "mainmenu.html"
+  },
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ]
 }
