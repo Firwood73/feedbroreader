@@ -23,7 +23,8 @@
     "storage",
     "unlimitedStorage",
     "notifications",
-    "webRequest"
+    "webRequest",
+    "webRequestBlocking"
   ],
   "browser_specific_settings": {
     "gecko": {
