@@ -3,6 +3,23 @@
 self.window = self;
 self.global = self;
 
+// Feedbro's core bundle still references Manifest V2 browserAction APIs.
+// In MV3 service workers, these methods live under chrome.action.
+if (typeof chrome !== "undefined" && !chrome.browserAction && chrome.action) {
+  chrome.browserAction = {
+    setBadgeBackgroundColor(details, callback) {
+      return chrome.action.setBadgeBackgroundColor(details, callback);
+    },
+    setBadgeText(details, callback) {
+      return chrome.action.setBadgeText(details, callback);
+    },
+    setPopup(details, callback) {
+      return chrome.action.setPopup(details, callback);
+    },
+    onClicked: chrome.action.onClicked,
+  };
+}
+
 // Minimal jQuery-compatible helpers used by Feedbro background logic.
 self.jQuery = self.$ = {
   each(collection, callback) {
